@@ -1,66 +1,23 @@
-# Yolov5 + Deep Sort with PyTorch
+﻿
+## 这是我的博客中关于目标跟踪的介绍，分别测试了三个代码，主要用现在这个：https://blog.csdn.net/qq_45874142/article/details/132454228
+# 1.介绍
+本文将介绍如何使用yolov5和deepsort进行目标检测和跟踪，并增加轨迹线的显示。本文的改进包括轨迹线颜色与目标框匹配、优化轨迹线只显示一段，并且当目标消失时不显示轨迹线。
+# 2.效果展示
+![输入图片说明](/imgs/2023-08-24/3hk6m16qCUyQQKNc.png)
+![输入图片说明](/imgs/2023-08-24/ckLW6XJaVrDX11oE.gif)
 
-[![HitCount](http://hits.dwyl.com/{mikel-brostrom}/{Yolov5_DeepSort_Pytorch}.svg)](http://hits.dwyl.com/{mikel-brostrom}/{Yolov5_DeepSort_Pytorch})
 
+# 3.如何使用
+### （1）首先，我们需要下载本代码：
+`git clone https://github.com/zzzbut/Yolov5_DeepSort_Track.git`
 
-![](Town.gif)
+需要用到yolov5原预训练模型和行人重识别模型ckpt.t7，代码上传限制文件大小。可从下方的参考代码中获取，是个百度网盘链接。
 
-## Introduction
+### （2）接下来，我们需要修改track.py文件中的参数：
+我们需要将参数修改为我们自己的视频文件路径和yolov5的预训练模型路径。我们还需要将编码方式设置为FLV1，这样保存的mp4文件才能打开。我们可以使用以下命令运行。
 
-This repository contains a moded version of PyTorch YOLOv5 (https://github.com/ultralytics/yolov5). It filters out every detection that is not a person. The detections of persons are then passed to a Deep Sort algorithm (https://github.com/ZQPei/deep_sort_pytorch) which tracks the persons. The reason behind the fact that it just tracks persons is that the deep association metric is trained on a person ONLY datatset.
+`python track.py --fourcc FLV1`
 
-## Description
-
-The implementation is based on two papers:
-
-- Simple Online and Realtime Tracking with a Deep Association Metric
-https://arxiv.org/abs/1703.07402
-- YOLOv4: Optimal Speed and Accuracy of Object Detection
-https://arxiv.org/pdf/2004.10934.pdf
-
-## Requirements
-
-Python 3.8 or later with all requirements.txt dependencies installed, including torch>=1.6. To install run:
-
-`pip install -U -r requirements.txt`
-
-All dependencies are included in the associated docker images. Docker requirements are: 
-- `nvidia-docker`
-- Nvidia Driver Version >= 440.44
-
-## Before you run the tracker
-
-1. Clone the repository recursively:
-
-`git clone --recurse-submodules https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch.git`
-
-If you already cloned and forgot to use `--recurse-submodules` you can run `git submodule update --init`
-
-2. Github block pushes of files larger than 100 MB (https://help.github.com/en/github/managing-large-files/conditions-for-large-files). Hence you need to download two different weights: the ones for yolo and the ones for deep sort
-
-- download the yolov5 weight from the latest realease https://github.com/ultralytics/yolov5/releases. Place the downlaoded `.pt` file under `yolov5/weights/`
-- download the deep sort weights from https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6. Place ckpt.t7 file under`deep_sort/deep/checkpoint/`
-
-## Tracking
-
-Tracking can be run on most video formats
-
-```bash
-python3 track.py --source ...
-```
-
-- Video:  `--source file.mp4`
-- Webcam:  `--source 0`
-- RTSP stream:  `--source rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa`
-- HTTP stream:  `--source http://wmccpinetop.axiscam.net/mjpg/video.mjpg`
-
-MOT compliant results can be saved to `inference/output` by 
-
-```bash
-python3 track.py --source ... --save-txt
-```
-
-## Other information
-
-For more detailed information about the algorithms and their corresponding lisences used in this project access their official github implementations.
-
+最后，我们可以看到目标检测和跟踪的结果，并且每个目标的轨迹线与其目标框匹配。当目标消失时，轨迹线也会消失，这样可以更清晰地看到每个目标的移动轨迹。
+# 4.参考代码连接
+[Deepsort跟踪算法画目标运动轨迹](https://blog.csdn.net/qq_35832521/article/details/115124521?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522169269914116800222876736%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=169269914116800222876736&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-4-115124521-null-null.142%5Ev93%5EchatgptT3_2&utm_term=deepsort%20%E8%BD%A8%E8%BF%B9&spm=1018.2226.3001.4187)
